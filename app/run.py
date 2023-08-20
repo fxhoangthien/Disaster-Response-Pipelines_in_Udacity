@@ -4,7 +4,7 @@ import pandas as pd
 import os
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
-
+import numpy as np
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
@@ -57,11 +57,11 @@ def index():
     
     # Plotting of Categories Distribution in Direct Genre
     direct_cate = df[df.genre == 'direct']
-    direct_cate_counts = (direct_cate.mean()*direct_cate.shape[0]).sort_values(ascending=False)
+    direct_cate_mean = direct_cate.mean()
+    direct_cate_counts = (direct_cate_mean * direct_cate.shape[0]).sort_values(ascending=False)
+    direct_cate_counts = direct_cate_counts.astype(str)  # Convert the number to a string
     direct_cate_names = list(direct_cate_counts.index)
-    # direct_cate_counts = (direct_cate.mean() * direct_cate.shape[0]).sort_values(ascending=False)
-    # direct_cate_counts = direct_cate_counts.astype(str)  # Convert the number to a string
-    # direct_cate_names = list(direct_cate_counts.index)
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
